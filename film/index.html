@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The Internet Court</title>
+<meta name="viewport" content="width=1920">
+<style>
+  @font-face { font-family: "Playfair Display"; font-weight: 700; src: url(assets/fonts/playfair-display-latin-700-normal.woff2) format("woff2"); }
+  @font-face { font-family: "Playfair Display"; font-weight: 800; src: url(assets/fonts/playfair-display-latin-800-normal.woff2) format("woff2"); }
+  @font-face { font-family: "Playfair Display"; font-weight: 900; src: url(assets/fonts/playfair-display-latin-900-normal.woff2) format("woff2"); }
+  @font-face { font-family: "Inter Film"; font-weight: 400; src: url(assets/fonts/Inter-Regular.otf); }
+  @font-face { font-family: "Inter Film"; font-weight: 500; src: url(assets/fonts/Inter-Medium.otf); }
+  @font-face { font-family: "Inter Film"; font-weight: 600; src: url(assets/fonts/Inter-SemiBold.otf); }
+  @font-face { font-family: "Inter Film"; font-weight: 700; src: url(assets/fonts/Inter-Bold.otf); }
+
+  :root { --ink: #1c1915; --cream: #f4eee4; --muted: #6f675c; }
+  html, body { margin: 0; padding: 0; background: var(--cream); overflow: hidden; }
+  #stage { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: var(--cream); }
+  #gl { position: absolute; inset: 0; width: 1920px; height: 1080px; display: block; }
+  #vignette { position: absolute; inset: 0; pointer-events: none;
+    background: radial-gradient(ellipse at 50% 55%, rgba(0,0,0,0) 55%, rgba(40,28,16,0.22) 100%); opacity: 0.5; }
+  .ov { position: absolute; left: 0; right: 0; text-align: center; color: var(--ink); opacity: 0;
+    will-change: opacity, transform; pointer-events: none; }
+  .serif { font-family: "Playfair Display", serif; font-weight: 900; letter-spacing: -0.01em; line-height: 1.02;
+    text-shadow: 0 0 28px rgba(244,238,228,0.95), 0 0 6px rgba(244,238,228,0.9); }
+  .sans { font-family: "Inter Film", sans-serif; font-weight: 600; letter-spacing: 0.06em;
+    text-shadow: 0 0 22px rgba(244,238,228,0.95), 0 0 5px rgba(244,238,228,0.95); }
+  .chip { display: inline-flex; align-items: center; gap: 26px; padding: 18px 34px 18px 20px; border-radius: 22px;
+    background: rgba(250,246,239,0.88); box-shadow: 0 10px 40px rgba(60,40,20,0.12); }
+  .chip img { display: block; border-radius: 16px; }
+  #endcard { position: absolute; inset: 0; background: var(--cream); opacity: 0; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; }
+  #endcard svg { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+</style>
+<script type="importmap">
+{ "imports": { "three": "./vendor/three.module.js" } }
+</script>
+</head>
+<body>
+<div id="stage">
+  <canvas id="gl" width="1920" height="1080"></canvas>
+  <div id="vignette"></div>
+
+  <div class="ov serif" id="o_rules" style="top:92px;font-size:78px;">IT FOLLOWED THE RULES.</div>
+  <div class="ov serif" id="o_why" style="top:84px;font-size:112px;">SO WHY WAS IT WRONG?</div>
+  <div class="ov sans" id="o_intent" style="bottom:96px;font-size:56px;">PERMISSION ISN’T THE SAME AS INTENT.</div>
+  <div class="ov serif" id="o_who" style="top:118px;font-size:150px;">WHO DECIDES?</div>
+  <div class="ov" id="o_court" style="top:70px;">
+    <div class="chip"><img src="assets/logos/internet-court_tile.png" width="104" height="104" alt="">
+      <span class="serif" style="font-size:84px;text-shadow:none;">INTERNET COURT</span></div>
+  </div>
+  <div class="ov" id="o_genlayer" style="bottom:64px;">
+    <div class="chip"><img src="assets/logos/genlayer_mark_black.png" width="96" height="96" alt="" style="border-radius:0">
+      <span class="sans" style="font-size:46px;letter-spacing:0.16em;text-shadow:none;">POWERED BY GENLAYER</span></div>
+  </div>
+  <div class="ov sans" id="o_jury" style="bottom:84px;font-size:50px;">AI JURY. ONCHAIN ADJUDICATION.</div>
+  <div class="ov serif" id="o_consequence" style="top:84px;font-size:92px;">FROM VERDICT TO CONSEQUENCE.</div>
+  <div class="ov sans" id="o_economy" style="bottom:90px;font-size:58px;line-height:1.25;">THE AGENT ECONOMY NEEDS<br>MORE THAN PERMISSIONS.</div>
+  <div class="ov serif" id="o_judge" style="top:96px;font-size:124px;">IT NEEDS A WAY TO JUDGE.</div>
+
+  <div id="endcard">
+    <svg width="1120" height="1120" viewBox="0 0 1120 1120">
+      <circle id="ring1" cx="560" cy="560" r="520" fill="none" stroke="#b81c1d" stroke-width="3" stroke-linecap="round"
+        stroke-dasharray="3268" stroke-dashoffset="3268" transform="rotate(90 560 560)"/>
+      <circle id="ring2" cx="560" cy="560" r="498" fill="none" stroke="#cfc6b6" stroke-width="2"
+        stroke-dasharray="3130" stroke-dashoffset="3130" transform="rotate(90 560 560)"/>
+    </svg>
+    <img id="e_logo" src="assets/logos/internet-court_tile.png" width="168" height="168" alt=""
+      style="border-radius:30px;opacity:0;box-shadow:0 16px 50px rgba(120,20,20,0.18)">
+    <div id="e_title" class="serif" style="font-size:100px;margin-top:44px;opacity:0;text-shadow:none;color:#1c1915">INTERNET COURT</div>
+    <div id="e_rule" style="width:120px;height:3px;background:#b81c1d;margin:38px 0 34px;transform:scaleX(0)"></div>
+    <div id="e_by" style="display:flex;align-items:center;gap:22px;opacity:0">
+      <img src="assets/logos/genlayer_mark_black.png" width="64" height="64" alt="">
+      <span class="sans" style="font-size:40px;letter-spacing:0.18em;text-shadow:none;color:#1c1915">POWERED BY GENLAYER</span>
+    </div>
+  </div>
+</div>
+<script type="module" src="src/film.js"></script>
+</body>
+</html>

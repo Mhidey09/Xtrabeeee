@@ -1,0 +1,15 @@
+[
+ ["s1a","An AI agent followed the rules."],
+ ["s1b","So why was it wrong?"],
+ ["s2a","MetaMask can limit what an agent is allowed to do."],
+ ["s2b","But staying within those limits doesn't always mean the agent understood what you wanted."],
+ ["s3","So when an agent gets the intention wrong... who decides what happens next?"],
+ ["s4","Meet Internet Court: an application designed to evaluate disputes over what an AI agent was supposed to do."],
+ ["s5a","GenLayer powers the AI jury behind the adjudication process."],
+ ["s5b","The evidence is evaluated, and the jury works toward a decision."],
+ ["s6a","Once the decision is finalized, it can have a real consequence:"],
+ ["s6b","the agent's permission can be revoked, preventing further payments under that delegation."],
+ ["s7a","As AI agents take on more responsibility, permissions alone won't answer every difficult question."],
+ ["s7b","We also need ways to evaluate their decisions when intentions and outcomes don't line up."],
+ ["s8","Internet Court. Powered by GenLayer."]
+]
