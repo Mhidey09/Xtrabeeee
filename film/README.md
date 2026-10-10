@@ -24,6 +24,7 @@ cd film
 npm install                      # three, fonts, playwright (uses the preinstalled Chromium)
 python audio/make_audio.py       # needs numpy + soundfile; writes audio/mix.wav
 node tools/render.mjs 3 30       # 3 parallel workers at 30 fps -> build/the-internet-court.mp4
+FRAMES=1480:1620 node tools/render.mjs 3 30   # re-render just a frame range (build/seg*.mp4) to splice in
 node tools/stills.mjs out 4.6 21.6 47.8   # spot-check individual frames
 ```
 

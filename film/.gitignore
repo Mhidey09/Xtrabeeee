@@ -2,8 +2,9 @@ node_modules/
 build/seg*.mp4
 build/segs.txt
 build/video_only.mp4
-build/the-internet-court.mp4
 audio/music.wav
 audio/sfx.wav
 audio/mix.wav
 package-lock.json
+build/patch*.mp4
+build/stills/

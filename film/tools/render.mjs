@@ -12,13 +12,16 @@ const WORKERS = parseInt(process.argv[2] || '3', 10);
 const FPS = parseInt(process.argv[3] || '30', 10);
 const DURATION = 80;
 const TOTAL = DURATION * FPS;
+// Optional partial render: FRAMES=start:end renders only that range to build/patch.mp4
+const RANGE = process.env.FRAMES ? process.env.FRAMES.split(':').map(Number) : null;
 const outDir = path.join(root, 'build');
 fs.mkdirSync(outDir, { recursive: true });
 const srv = await serve(root);
 const url = `http://127.0.0.1:${srv.address().port}/index.html`;
 
 async function worker(w) {
-  const f0 = Math.floor(TOTAL * w / WORKERS), f1 = Math.floor(TOTAL * (w + 1) / WORKERS);
+  const [a0, a1] = RANGE || [0, TOTAL];
+  const f0 = a0 + Math.floor((a1 - a0) * w / WORKERS), f1 = a0 + Math.floor((a1 - a0) * (w + 1) / WORKERS);
   const seg = path.join(outDir, `seg${w}.mp4`);
   const ff = spawn('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(FPS), '-c:v', 'mjpeg', '-i', '-',
     '-c:v', 'libx264', '-preset', 'slow', '-crf', '15', '-pix_fmt', 'yuv420p', '-r', String(FPS), seg], { stdio: ['pipe', 'inherit', 'inherit'] });
@@ -42,6 +45,7 @@ async function worker(w) {
 
 const segs = await Promise.all([...Array(WORKERS).keys()].map(worker));
 srv.close();
+if (RANGE) { console.log('done (partial)', segs); process.exit(0); }
 fs.writeFileSync(path.join(outDir, 'segs.txt'), segs.map(s => `file '${s}'`).join('\n'));
 execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', path.join(outDir, 'segs.txt'), '-c', 'copy', path.join(outDir, 'video_only.mp4')]);
 execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-i', path.join(outDir, 'video_only.mp4'), '-i', path.join(root, 'audio', 'mix.wav'),

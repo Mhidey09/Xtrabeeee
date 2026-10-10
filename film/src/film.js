@@ -656,7 +656,7 @@ const camD = track([
 // verdict seal flight path
 const sealPath = new THREE.CatmullRomCurve3([
   V(0, 2.35, -39.0), V(0, 2.2, -36.5), V(0, 1.9, -33.6), V(-0.4, 3.2, -24), V(-1.4, 3.4, -10), V(-2.6, 2.6, -1.0),
-  P0.clone().add(PN.clone().multiplyScalar(0.9)).add(V(0, 0.35, 0)),
+  P0.clone().add(PN.clone().multiplyScalar(0.9)).add(V(0, -0.3, 0)).add(V(Math.cos(PERM_RY), 0, -Math.sin(PERM_RY)).multiplyScalar(0.6)),
 ], false, 'centripetal');
 const SEAL_T0 = 49.9, SEAL_T1 = 52.9;
 const sealAt = t => sealPath.getPointAt(eio(seg(t, SEAL_T0, SEAL_T1)));
@@ -898,11 +898,11 @@ function animate(t) {
   if (seal.visible) {
     const p = t < SEAL_T0 ? V(0, CY + 2.03, -39.0) : sealAt(t);
     const stamp = eio(seg(t, 52.9, 53.35));
-    const target = P0.clone().add(PN.clone().multiplyScalar(0.07)).add(V(0, -0.36, 0)).add(V(Math.cos(PERM_RY), 0, -Math.sin(PERM_RY)).multiplyScalar(0.56));
+    const target = P0.clone().add(PN.clone().multiplyScalar(0.05)).add(V(0, -0.4, 0)).add(V(Math.cos(PERM_RY), 0, -Math.sin(PERM_RY)).multiplyScalar(0.6));
     seal.position.copy(lerpV(p, target, stamp));
     const look = PERM_RY;
     seal.rotation.set(0, t < SEAL_T1 ? (t - SEAL_T0) * 2.4 : lerp((SEAL_T1 - SEAL_T0) * 2.4, Math.round((SEAL_T1 - SEAL_T0) * 2.4 / (2 * Math.PI)) * 2 * Math.PI + look, stamp), 0);
-    seal.scale.setScalar(eo(seg(t, 49.5, 49.95)) * (1 - ei(seg(t, 53.3, 53.6))));
+    seal.scale.setScalar(eo(seg(t, 49.5, 49.95)) * lerp(1, 0.55, eio(seg(t, 52.3, 53.0))) * (1 - ei(seg(t, 53.3, 53.6))));
   }
 
   // ---------- hubs (world activity)
