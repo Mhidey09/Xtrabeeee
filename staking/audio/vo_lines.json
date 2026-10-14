@@ -1,0 +1,15 @@
+[
+ ["m1a","Meet Mochi."],
+ ["m1b","Mochi has some GEN... and a question: how can it help keep GenLayer honest?"],
+ ["m2a","On GenLayer, validators are the ones who check the work."],
+ ["m2b","When an Intelligent Contract needs a decision, several validators look at it independently, then vote on whether the answer holds up."],
+ ["m3a","To earn a seat, a validator stakes GEN. That's its skin in the game."],
+ ["m3b","Do the job well, and it earns rewards. Act dishonestly, and part of that stake can be slashed."],
+ ["m4a","Mochi doesn't want to run a validator. So Mochi can delegate:"],
+ ["m4b","back a validator it trusts with its GEN, and share in that validator's rewards... and its risks."],
+ ["m5a","And where you delegate matters."],
+ ["m5b","Pile everything onto one giant validator, and the whole network leans on a few shoulders."],
+ ["m5c","Spread it across several reliable ones, and more independent voices help decide."],
+ ["m6a","If it were me? I'd spread it out."],
+ ["m6b","Stake carefully. Delegate wisely. Keep GenLayer decentralized."]
+]

@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Where Should Mochi Stake?</title>
+<meta name="viewport" content="width=1920">
+<style>
+  @font-face { font-family: "Fredoka"; font-weight: 600; src: url(assets/fonts/fredoka-latin-600-normal.woff2) format("woff2"); }
+  @font-face { font-family: "Fredoka"; font-weight: 700; src: url(assets/fonts/fredoka-latin-700-normal.woff2) format("woff2"); }
+  @font-face { font-family: "Inter Film"; font-weight: 500; src: url(assets/fonts/Inter-Medium.otf); }
+  @font-face { font-family: "Inter Film"; font-weight: 600; src: url(assets/fonts/Inter-SemiBold.otf); }
+  @font-face { font-family: "Inter Film"; font-weight: 700; src: url(assets/fonts/Inter-Bold.otf); }
+  :root { --ink: #1e1530; --teal: #12b5a8; --magenta: #c632cf; --bg: #f3eef6; }
+  html, body { margin: 0; padding: 0; background: var(--bg); overflow: hidden; }
+  #stage { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: var(--bg); }
+  #gl { position: absolute; inset: 0; width: 1920px; height: 1080px; display: block; }
+  .ov { position: absolute; left: 0; right: 0; text-align: center; opacity: 0; pointer-events: none; }
+  .t { display: inline-block; font-family: "Fredoka", sans-serif; font-weight: 700; color: var(--ink); line-height: 1.08;
+       letter-spacing: 0.01em; padding: 18px 40px 22px; border-radius: 34px; background: rgba(255,255,255,0.86);
+       box-shadow: 0 14px 40px rgba(60,30,90,0.12); }
+  .teal { color: var(--teal); } .mag { color: var(--magenta); }
+  #endcard { position: absolute; inset: 0; background: #ffffff; opacity: 0; }
+  #endcard .mochi { position: absolute; left: 250px; top: 120px; width: 840px; height: 840px; object-fit: contain; }
+  #endcard .right { position: absolute; left: 1060px; top: 0; bottom: 0; width: 720px; display: flex; flex-direction: column; justify-content: center; }
+  #endcard .line { font-family: "Fredoka", sans-serif; font-weight: 700; font-size: 84px; line-height: 1.04; color: var(--ink); }
+  #endcard .brand { display: flex; align-items: center; gap: 26px; margin-top: 56px; }
+  #endcard .brand span { font-family: "Inter Film", sans-serif; font-weight: 700; font-size: 58px; color: var(--ink); letter-spacing: -0.01em; }
+</style>
+<script type="importmap">{ "imports": { "three": "./vendor/three.module.js" } }</script>
+</head>
+<body>
+<div id="stage">
+  <canvas id="gl" width="1920" height="1080"></canvas>
+  <div class="ov" id="o_where" style="bottom:60px;"><span class="t" style="font-size:96px;">WHERE SHOULD <span class="mag">MOCHI</span> STAKE?</span></div>
+  <div class="ov" id="o_checkers" style="bottom:60px;"><span class="t" style="font-size:66px;"><span class="teal">VALIDATORS</span> = THE NETWORK’S CHECKERS</span></div>
+  <div class="ov" id="o_skin" style="bottom:60px;"><span class="t" style="font-size:72px;"><span class="teal">STAKE</span> = SKIN IN THE GAME</span></div>
+  <div class="ov" id="o_delegate" style="bottom:56px;"><span class="t" style="font-size:62px;"><span class="mag">DELEGATE</span> = BACK A VALIDATOR,<br>SHARE THE OUTCOME</span></div>
+  <div class="ov" id="o_tilt" style="top:64px;"><span class="t" style="font-size:72px;">ALL ON ONE → THE NETWORK <span class="mag">TILTS</span></span></div>
+  <div class="ov" id="o_spread" style="top:64px;"><span class="t" style="font-size:72px;">SPREAD IT → MORE <span class="teal">INDEPENDENT VOICES</span></span></div>
+  <div class="ov" id="o_wisely" style="top:70px;"><span class="t" style="font-size:88px;">STAKE CAREFULLY. <span class="teal">DELEGATE WISELY.</span></span></div>
+  <div id="endcard">
+    <img class="mochi" id="e_mochi" src="assets/ref/mochi_reference.jpg" alt="">
+    <div class="right">
+      <div class="line" id="e_l1">Stake carefully.</div>
+      <div class="line" id="e_l2" style="color:#12b5a8">Delegate wisely.</div>
+      <div class="brand" id="e_brand"><img src="assets/logos/genlayer_mark_ink.png" width="96" height="96" alt=""><span>GenLayer</span></div>
+    </div>
+  </div>
+</div>
+<script type="module" src="src/staking.js"></script>
+</body>
+</html>
