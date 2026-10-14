@@ -287,9 +287,8 @@ function drawValidator(ctx, s, w, h) {
 function drawVerdict(ctx, s, w, h) {
   ctx.fillStyle = 'rgba(252,250,246,0.98)'; rr(ctx, 0, 0, w, h, 36); ctx.fill();
   ctx.strokeStyle = COL.icRed; ctx.lineWidth = 6; rr(ctx, 3, 3, w - 6, h - 6, 33); ctx.stroke();
-  ctx.save(); rr(ctx, 60, 54, 96, 96, 20); ctx.clip(); ctx.drawImage(imgs.ic, 60, 54, 96, 96); ctx.restore();
-  ctx.fillStyle = COL.muted; ctx.font = `600 30px ${SANS}`; ctx.letterSpacing = '4px'; ctx.fillText('INTERNET COURT', 184, 96);
-  ctx.fillStyle = COL.ink; ctx.font = `500 26px ${SANS}`; ctx.letterSpacing = '2px'; ctx.fillText('DECISION FINALIZED', 184, 136); ctx.letterSpacing = '0px';
+  ctx.fillStyle = COL.muted; ctx.font = `600 30px ${SANS}`; ctx.letterSpacing = '4px'; ctx.fillText('INTERNET COURT', 60, 96);
+  ctx.fillStyle = COL.ink; ctx.font = `500 26px ${SANS}`; ctx.letterSpacing = '2px'; ctx.fillText('DECISION FINALIZED', 60, 136); ctx.letterSpacing = '0px';
   ctx.fillStyle = COL.ink; ctx.font = `900 112px ${SERIF}`; ctx.fillText('Verdict', 60, 300);
   ctx.font = `600 44px ${SANS}`; ctx.fillText('The purchase did not match', 60, 400); ctx.fillText('the user’s mandate.', 60, 456);
   ctx.fillStyle = '#E8DFD0'; ctx.fillRect(60, 510, w - 120, 3);
@@ -529,7 +528,16 @@ verdict.add(mesh(rbox(1.34, 0.89, 0.035, 0.04), frosted('#F4F4F1', 0.8), true, f
 const verdictFace = texPlane(1.3, 0.86, verdictDyn); verdictFace.position.z = 0.02; verdict.add(verdictFace);
 const seal = new THREE.Group(); world.add(seal);
 { const sd = mesh(new THREE.CylinderGeometry(0.17, 0.17, 0.04, 64), painted(COL.icRed)); sd.rotation.x = Math.PI / 2; seal.add(sd); }
-const sealTexMat = new THREE.MeshBasicMaterial({ toneMapped: false });
+function drawSeal(ctx, s, w, h) {
+  ctx.fillStyle = COL.icRed; ctx.beginPath(); ctx.arc(w / 2, h / 2, w / 2, 0, Math.PI * 2); ctx.fill();
+  ctx.strokeStyle = 'rgba(255,255,255,0.85)'; ctx.lineWidth = 6; ctx.beginPath(); ctx.arc(w / 2, h / 2, w / 2 - 22, 0, Math.PI * 2); ctx.stroke();
+  ctx.fillStyle = '#fff'; ctx.textAlign = 'center';
+  ctx.font = `900 64px ${SERIF}`; ctx.fillText('Verdict', w / 2, h / 2 + 8);
+  ctx.font = `600 22px ${SANS}`; ctx.letterSpacing = '4px'; ctx.fillText('INTERNET COURT', w / 2, h / 2 + 52); ctx.letterSpacing = '0px';
+  ctx.textAlign = 'left';
+}
+const sealDyn = new DynTex(320, 320, drawSeal);
+const sealTexMat = new THREE.MeshBasicMaterial({ map: sealDyn.tex, toneMapped: false, transparent: true });
 const sealFace = new THREE.Mesh(new THREE.CircleGeometry(0.13, 64), sealTexMat); sealFace.position.z = 0.021; seal.add(sealFace);
 const sealBack = sealFace.clone(); sealBack.rotation.y = Math.PI; sealBack.position.z = -0.021; seal.add(sealBack);
 // GenLayer foundation ring around the court (seen in the wide world shot)
@@ -969,10 +977,8 @@ function overlays(t) {
   $('endcard').style.opacity = sm(e).toFixed(3);
   $('ring1').setAttribute('stroke-dashoffset', (3268 * (1 - eio(seg(t, 73.0, 75.6)))).toFixed(1));
   $('ring2').setAttribute('stroke-dashoffset', (3130 * (1 - eio(seg(t, 73.3, 76.2)))).toFixed(1));
-  $('e_logo').style.opacity = eo(seg(t, 73.2, 73.9)).toFixed(3);
-  $('e_logo').style.transform = `translateY(${(1 - eo(seg(t, 73.2, 74.0))) * 18}px)`;
-  $('e_title').style.opacity = eo(seg(t, 73.6, 74.3)).toFixed(3);
-  $('e_title').style.transform = `translateY(${(1 - eo(seg(t, 73.6, 74.4))) * 18}px)`;
+  $('e_title').style.opacity = eo(seg(t, 73.3, 74.0)).toFixed(3);
+  $('e_title').style.transform = `translateY(${(1 - eo(seg(t, 73.3, 74.1))) * 18}px)`;
   $('e_rule').style.transform = `scaleX(${eio(seg(t, 74.2, 74.9)).toFixed(3)})`;
   $('e_by').style.opacity = eo(seg(t, 74.5, 75.2)).toFixed(3);
 }
@@ -1001,15 +1007,12 @@ function renderAt(t) {
 async function init() {
   await Promise.all([
     loadImg('mm', 'assets/logos/metamask_tile.png'),
-    loadImg('ic', 'assets/logos/internet-court_tile.png'),
     document.fonts.load('900 40px "Playfair Display"'), document.fonts.load('700 40px "Playfair Display"'),
     document.fonts.load('400 40px "Inter Film"'), document.fonts.load('500 40px "Inter Film"'),
     document.fonts.load('600 40px "Inter Film"'), document.fonts.load('700 40px "Inter Film"'),
   ]);
   await Promise.all([...document.images].map(i => i.complete ? 0 : new Promise(r => { i.onload = i.onerror = r; })));
-  const st = new THREE.TextureLoader().load('assets/logos/internet-court_tile.png');
-  st.colorSpace = THREE.SRGBColorSpace; sealTexMat.map = st; sealTexMat.needsUpdate = true;
-  await new Promise(r => { const chk = () => st.image && st.image.complete ? r() : setTimeout(chk, 20); chk(); });
+  sealDyn.update({});
   renderAt(0);
   window.renderAt = t => { renderAt(t); return true; };
   window.filmReady = true;
